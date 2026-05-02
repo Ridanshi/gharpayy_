@@ -1,6 +1,10 @@
 import { useAuthStore } from "@/stores/auth";
 
-const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8080/api";
+const API_URL = import.meta.env.VITE_API_URL;
+
+if (!API_URL) {
+  throw new Error("Missing VITE_API_URL. Set it to your deployed backend API URL.");
+}
 
 type ApiResponse<T> = { success: boolean; data: T; message: string };
 

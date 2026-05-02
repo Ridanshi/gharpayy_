@@ -12,7 +12,7 @@ import { errorHandler, notFound } from "./middleware/error.js";
 export const app = express();
 
 app.use(helmet());
-app.use(cors({ origin: env.clientUrl, credentials: true }));
+app.use(cors({ origin: env.clientUrl || true, credentials: true }));
 app.use(express.json({ limit: "10mb" }));
 app.use(morgan("dev"));
 app.use(rateLimit({ windowMs: 60_000, limit: 300 }));
