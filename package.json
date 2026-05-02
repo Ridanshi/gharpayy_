@@ -1,0 +1,19 @@
+{
+  "name": "flowops-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "FlowOps AI - intelligent PG reservation, lead management, and operations intelligence platform.",
+  "scripts": {
+    "dev": "concurrently \"npm:dev --workspace server\" \"npm:dev --workspace client\"",
+    "build": "npm run build --workspace server && npm run build --workspace client",
+    "seed": "npm run seed --workspace server",
+    "typecheck": "npm run typecheck --workspace client && npm run typecheck --workspace server"
+  },
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
