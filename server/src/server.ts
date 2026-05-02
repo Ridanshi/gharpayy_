@@ -1,9 +1,11 @@
 import { app } from "./app.js";
 import { connectDb } from "./config/db.js";
 import { env } from "./config/env.js";
+import { ensureDemoUsers } from "./services/demoSeedService.js";
 
 connectDb()
-  .then(() => {
+  .then(async () => {
+    await ensureDemoUsers();
     app.listen(env.port, "0.0.0.0", () => {
       console.log(`FlowOps API listening on port ${env.port}`);
     });
