@@ -35,7 +35,7 @@ export function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenCh
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-background/70 backdrop-blur-sm" />
         <Dialog.Content asChild>
-          <motion.div initial={{ opacity: 0, y: 18, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} className="fixed inset-x-3 top-4 z-50 flex max-h-[calc(100dvh-2rem)] flex-col overflow-hidden rounded-lg border bg-card shadow-2xl sm:left-1/2 sm:top-[12vh] sm:w-[calc(100vw-2rem)] sm:max-w-2xl sm:-translate-x-1/2">
+          <motion.div initial={{ opacity: 0, y: 18, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} className="mobile-command-panel fixed inset-x-3 top-4 z-50 flex max-h-[calc(100dvh-2rem)] flex-col overflow-hidden rounded-lg border bg-card shadow-2xl sm:left-1/2 sm:top-[12vh] sm:w-[calc(100vw-2rem)] sm:max-w-2xl sm:-translate-x-1/2">
             <div className="flex h-14 shrink-0 items-center gap-3 border-b px-4">
               <Search className="h-5 w-5 shrink-0 text-muted-foreground" />
               <input

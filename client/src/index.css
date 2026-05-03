@@ -83,6 +83,25 @@
   .recharts-surface {
     max-width: 100%;
   }
+
+  @media (max-width: 639px) {
+    .mobile-dialog-panel {
+      inset: .75rem .75rem calc(.75rem + env(safe-area-inset-bottom)) .75rem !important;
+      width: auto !important;
+      max-width: none !important;
+      max-height: none !important;
+      transform: none !important;
+    }
+
+    .mobile-command-panel {
+      left: .75rem !important;
+      right: .75rem !important;
+      top: .75rem !important;
+      width: auto !important;
+      max-width: none !important;
+      transform: none !important;
+    }
+  }
 }
 
 @layer utilities {

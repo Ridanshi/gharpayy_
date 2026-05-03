@@ -205,7 +205,7 @@ export function ActionModal() {
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-background/72 backdrop-blur-sm" />
         <Dialog.Content asChild>
-          <motion.div initial={{ opacity: 0, y: 18, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} className="fixed inset-x-3 bottom-3 top-3 z-50 flex min-h-0 flex-col overflow-hidden rounded-lg border bg-card shadow-2xl sm:bottom-auto sm:left-1/2 sm:top-[6vh] sm:max-h-[88vh] sm:w-[calc(100vw-2rem)] sm:max-w-2xl sm:-translate-x-1/2">
+          <motion.div initial={{ opacity: 0, y: 18, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} className="mobile-dialog-panel fixed inset-x-3 bottom-3 top-3 z-50 flex min-h-0 flex-col overflow-hidden rounded-lg border bg-card shadow-2xl sm:bottom-auto sm:left-1/2 sm:top-[6vh] sm:max-h-[88vh] sm:w-[calc(100vw-2rem)] sm:max-w-2xl sm:-translate-x-1/2">
             <div className="shrink-0 flex items-center justify-between gap-3 border-b p-4 sm:p-5">
               <div>
                 <Dialog.Title className="text-lg font-bold">{titles[action]}</Dialog.Title>

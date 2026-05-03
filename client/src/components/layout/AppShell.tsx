@@ -105,23 +105,33 @@ export function AppShell() {
       </aside>
       <main className="lg:pl-64">
         <header className="ambient-topbar sticky top-0 z-30 border-b border-border/70 backdrop-blur-xl">
-          <div className="flex h-16 items-center gap-3 px-4 sm:px-6">
-            <Button variant="secondary" size="icon" onClick={() => setMobileNavOpen(true)} aria-label="Open navigation" className="lg:hidden">
+          <div className="flex min-h-16 flex-wrap items-center gap-2 px-3 py-2 sm:gap-3 sm:px-6 lg:h-16 lg:flex-nowrap lg:py-0">
+            <Button variant="secondary" size="icon" onClick={() => setMobileNavOpen(true)} aria-label="Open navigation and account menu" className="shrink-0 lg:hidden">
               <Menu className="h-4 w-4" />
             </Button>
-            <button onClick={() => setCommandOpen(true)} className="flex h-10 min-w-0 flex-1 items-center gap-3 rounded-md border border-border/70 bg-card/72 px-3 text-sm text-muted-foreground shadow-sm backdrop-blur transition duration-300 hover:-translate-y-0.5 hover:border-primary/25 hover:bg-muted/70 lg:max-w-md">
-              <Search className="h-4 w-4" />
-              <span className="truncate">Search leads, properties, actions</span>
+            <button onClick={() => setMobileNavOpen(true)} className="flex min-w-0 flex-1 items-center gap-2 rounded-md px-1 py-1 text-left lg:hidden" aria-label="Open account menu">
+              <div className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-gradient-to-b from-orange-400 to-orange-600 text-primary-foreground shadow-orange-glow">
+                <Sparkles className="h-4 w-4" />
+              </div>
+              <span className="min-w-0">
+                <span className="block truncate text-sm font-bold leading-4">FlowOps AI</span>
+                <span className="block truncate text-[11px] text-muted-foreground">{user?.role ?? "Workspace"}</span>
+              </span>
+            </button>
+            <button onClick={() => setCommandOpen(true)} className="order-2 flex h-10 min-w-0 flex-[1_0_100%] items-center gap-2 rounded-md border border-border/70 bg-card/72 px-3 text-sm text-muted-foreground shadow-sm backdrop-blur transition duration-300 hover:-translate-y-0.5 hover:border-primary/25 hover:bg-muted/70 sm:gap-3 lg:order-none lg:max-w-md lg:flex-1">
+              <Search className="h-4 w-4 shrink-0" />
+              <span className="truncate">Search</span>
+              <span className="hidden truncate sm:inline">leads, properties, actions</span>
               <kbd className="ml-auto hidden rounded border bg-muted px-1.5 py-0.5 text-[10px] sm:inline-flex">Ctrl K</kbd>
             </button>
-            <Button variant="secondary" size="icon" onClick={() => setCommandOpen(true)} aria-label="Open command palette">
+            <Button variant="secondary" size="icon" onClick={() => setCommandOpen(true)} aria-label="Open command palette" className="hidden shrink-0 sm:inline-flex">
               <Command className="h-4 w-4" />
             </Button>
             <div className="hidden items-center gap-2 rounded-md border border-primary/15 bg-card/72 px-3 py-2 text-sm shadow-orange-glow backdrop-blur md:flex">
               <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-70" /><span className="live-dot relative inline-flex h-2 w-2 rounded-full bg-primary" /></span>
               Live ops
             </div>
-            <Button variant="secondary" size="icon" aria-label="Notifications" className="relative" onClick={() => setNotificationsOpen((open) => !open)}>
+            <Button variant="secondary" size="icon" aria-label="Notifications" className="relative shrink-0" onClick={() => setNotificationsOpen((open) => !open)}>
               <Bell className="h-4 w-4" />
               <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-primary" />
             </Button>
@@ -144,19 +154,19 @@ export function AppShell() {
                 </div>
               </div>
             )}
-            <Button variant="secondary" size="icon" onClick={toggleTheme} aria-label="Toggle theme" className="lg:hidden">
-              {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            <Button variant="secondary" size="icon" onClick={() => setMobileNavOpen(true)} aria-label="Open profile and settings" className="shrink-0 lg:hidden">
+              <Avatar name={user?.name ?? "User"} src={user?.avatar} className="h-6 w-6 text-[10px]" />
             </Button>
           </div>
         </header>
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }} className="relative px-4 py-6 sm:px-6">
+        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }} className="relative px-4 py-5 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:px-6 lg:py-6 lg:pb-6">
           <Outlet />
         </motion.div>
       </main>
       {mobileNavOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <button className="absolute inset-0 bg-background/75 backdrop-blur-sm" aria-label="Close navigation" onClick={() => setMobileNavOpen(false)} />
-          <motion.aside initial={{ x: -320, opacity: 0.98 }} animate={{ x: 0, opacity: 1 }} className="relative flex h-full w-[min(22rem,86vw)] flex-col border-r bg-card/95 p-4 shadow-2xl backdrop-blur-xl">
+          <motion.aside initial={{ x: -320, opacity: 0.98 }} animate={{ x: 0, opacity: 1 }} className="relative flex h-full w-[min(22rem,88vw)] flex-col overflow-y-auto border-r bg-card/95 p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] shadow-2xl backdrop-blur-xl">
             <div className="mb-6 flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
                 <div className="grid h-10 w-10 place-items-center rounded-lg bg-gradient-to-b from-orange-400 to-orange-600 text-primary-foreground shadow-orange-glow">
@@ -212,7 +222,7 @@ export function AppShell() {
           </motion.aside>
         </div>
       )}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 grid grid-cols-5 border-t bg-card/95 p-1 backdrop-blur-xl lg:hidden">
+      <nav className="fixed bottom-0 left-0 right-0 z-40 grid grid-cols-5 border-t bg-card/95 px-1 pb-[calc(.25rem+env(safe-area-inset-bottom))] pt-1 backdrop-blur-xl lg:hidden">
         {nav.slice(0, 5).map((item) => (
           <NavLink key={item.to} to={item.to} className={({ isActive }) => cn("grid place-items-center rounded-md py-2 text-muted-foreground", isActive && "bg-accent text-accent-foreground")}>
             <item.icon className="h-5 w-5" />
