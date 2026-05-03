@@ -1,6 +1,6 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { BarChart3, Bell, Building2, CalendarDays, Command, KanbanSquare, LayoutDashboard, LogOut, Moon, Search, Sparkles, Sun, UsersRound, WalletCards } from "lucide-react";
+import { BarChart3, Bell, Building2, CalendarDays, Command, KanbanSquare, LayoutDashboard, LogOut, Menu, Moon, Search, Sparkles, Sun, UsersRound, WalletCards, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
 import { useAuthStore } from "@/stores/auth";
@@ -35,6 +35,7 @@ export function AppShell() {
   const navigate = useNavigate();
   const [commandOpen, setCommandOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const { data: feed = [] } = useQuery({ queryKey: ["notifications-feed"], queryFn: () => api<Activity[]>("/activity"), refetchInterval: 30000 });
 
   useEffect(() => {
@@ -49,7 +50,7 @@ export function AppShell() {
   }, []);
 
   return (
-    <div className="app-atmosphere min-h-screen noise">
+    <div className="app-atmosphere min-h-screen overflow-x-hidden noise">
       <div className="pointer-events-none fixed inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,.025),transparent_28%)]" />
       <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 border-r border-border/70 bg-card/78 shadow-[12px_0_60px_rgba(0,0,0,.18)] backdrop-blur-xl lg:block">
         <div className="flex h-full flex-col p-4">
@@ -105,9 +106,12 @@ export function AppShell() {
       <main className="lg:pl-64">
         <header className="ambient-topbar sticky top-0 z-30 border-b border-border/70 backdrop-blur-xl">
           <div className="flex h-16 items-center gap-3 px-4 sm:px-6">
-            <button onClick={() => setCommandOpen(true)} className="flex h-10 flex-1 items-center gap-3 rounded-md border border-border/70 bg-card/72 px-3 text-sm text-muted-foreground shadow-sm backdrop-blur transition duration-300 hover:-translate-y-0.5 hover:border-primary/25 hover:bg-muted/70 lg:max-w-md">
+            <Button variant="secondary" size="icon" onClick={() => setMobileNavOpen(true)} aria-label="Open navigation" className="lg:hidden">
+              <Menu className="h-4 w-4" />
+            </Button>
+            <button onClick={() => setCommandOpen(true)} className="flex h-10 min-w-0 flex-1 items-center gap-3 rounded-md border border-border/70 bg-card/72 px-3 text-sm text-muted-foreground shadow-sm backdrop-blur transition duration-300 hover:-translate-y-0.5 hover:border-primary/25 hover:bg-muted/70 lg:max-w-md">
               <Search className="h-4 w-4" />
-              Search leads, properties, actions
+              <span className="truncate">Search leads, properties, actions</span>
               <kbd className="ml-auto hidden rounded border bg-muted px-1.5 py-0.5 text-[10px] sm:inline-flex">Ctrl K</kbd>
             </button>
             <Button variant="secondary" size="icon" onClick={() => setCommandOpen(true)} aria-label="Open command palette">
@@ -149,6 +153,65 @@ export function AppShell() {
           <Outlet />
         </motion.div>
       </main>
+      {mobileNavOpen && (
+        <div className="fixed inset-0 z-50 lg:hidden">
+          <button className="absolute inset-0 bg-background/75 backdrop-blur-sm" aria-label="Close navigation" onClick={() => setMobileNavOpen(false)} />
+          <motion.aside initial={{ x: -320, opacity: 0.98 }} animate={{ x: 0, opacity: 1 }} className="relative flex h-full w-[min(22rem,86vw)] flex-col border-r bg-card/95 p-4 shadow-2xl backdrop-blur-xl">
+            <div className="mb-6 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="grid h-10 w-10 place-items-center rounded-lg bg-gradient-to-b from-orange-400 to-orange-600 text-primary-foreground shadow-orange-glow">
+                  <Sparkles className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="font-bold tracking-tight">FlowOps AI</p>
+                  <p className="text-xs text-muted-foreground">{user?.role ? roleCopy[user.role] : "Operations intelligence"}</p>
+                </div>
+              </div>
+              <Button variant="secondary" size="icon" onClick={() => setMobileNavOpen(false)} aria-label="Close navigation">
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+            <nav className="space-y-1">
+              {nav.map((item) => (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  onClick={() => setMobileNavOpen(false)}
+                  className={({ isActive }) => cn("flex h-11 items-center gap-3 rounded-md px-3 text-sm font-medium text-muted-foreground transition hover:bg-muted/70 hover:text-foreground", isActive && "border border-primary/15 bg-accent/80 text-accent-foreground shadow-orange-glow")}
+                >
+                  <item.icon className="h-4 w-4" />
+                  {item.label}
+                </NavLink>
+              ))}
+            </nav>
+            <div className="mt-auto rounded-lg border border-border/70 bg-background/58 p-3 shadow-dark-soft backdrop-blur">
+              <div className="flex items-center gap-3">
+                <Avatar name={user?.name ?? "User"} src={user?.avatar} />
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold">{user?.name}</p>
+                  <p className="text-xs text-muted-foreground">{user?.role}</p>
+                </div>
+              </div>
+              <div className="mt-3 flex gap-2">
+                <Button variant="secondary" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
+                  {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                </Button>
+                <Button
+                  variant="secondary"
+                  className="flex-1"
+                  onClick={() => {
+                    logout();
+                    setMobileNavOpen(false);
+                    navigate("/login");
+                  }}
+                >
+                  <LogOut className="h-4 w-4" /> Logout
+                </Button>
+              </div>
+            </div>
+          </motion.aside>
+        </div>
+      )}
       <nav className="fixed bottom-0 left-0 right-0 z-40 grid grid-cols-5 border-t bg-card/95 p-1 backdrop-blur-xl lg:hidden">
         {nav.slice(0, 5).map((item) => (
           <NavLink key={item.to} to={item.to} className={({ isActive }) => cn("grid place-items-center rounded-md py-2 text-muted-foreground", isActive && "bg-accent text-accent-foreground")}>

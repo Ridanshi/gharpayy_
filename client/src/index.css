@@ -58,6 +58,13 @@
     text-rendering: optimizeLegibility;
   }
 
+  html,
+  body,
+  #root {
+    min-height: 100%;
+    overflow-x: hidden;
+  }
+
   ::selection {
     @apply bg-primary text-primary-foreground;
   }

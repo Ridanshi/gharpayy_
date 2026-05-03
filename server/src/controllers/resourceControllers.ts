@@ -11,7 +11,14 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { created, ok } from "../utils/apiResponse.js";
 
 export const listUsers = asyncHandler(async (_req, res) => ok(res, await User.find().select("-password").sort({ role: 1 })));
-export const listActivity = asyncHandler(async (_req, res) => ok(res, await Activity.find().populate("actor lead property reservation").sort({ createdAt: -1 }).limit(40)));
+export const listActivity = asyncHandler(async (req, res) => {
+  const filter: Record<string, unknown> = {};
+  if (req.user?.role === "Sales Agent") {
+    const leadIds = await Lead.find({ assignedAgent: req.user.id }).distinct("_id");
+    filter.$or = [{ lead: { $in: leadIds } }, { actor: req.user.id }];
+  }
+  ok(res, await Activity.find(filter).populate("actor lead property reservation").sort({ createdAt: -1 }).limit(40));
+});
 export const createActivity = asyncHandler(async (req, res) => {
   const activity = await Activity.create({
     type: req.body.type ?? "system.event",
@@ -157,7 +164,7 @@ export const updateReservation = asyncHandler(async (req, res) => {
   ok(res, reservation);
 });
 
-export const listTasks = asyncHandler(async (_req, res) => ok(res, await Task.find().populate("lead owner").sort({ dueAt: 1 }).limit(100)));
+export const listTasks = asyncHandler(async (req, res) => ok(res, await Task.find(req.user?.role === "Sales Agent" ? { owner: req.user.id } : {}).populate("lead owner").sort({ dueAt: 1 }).limit(100)));
 export const createTask = asyncHandler(async (req, res) => {
   const task = await Task.create({ title: req.body.title, lead: req.body.lead, owner: req.body.owner ?? req.user?.id, dueAt: req.body.dueAt, priority: req.body.priority ?? "High" });
   await Activity.create({ type: "task.created", title: "Task created", description: task.title, actor: req.user?.id, lead: task.lead });

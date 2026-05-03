@@ -134,9 +134,12 @@ async function seedProperties(users: any[]) {
 
 async function seedLeads(users: any[], properties: any[]) {
   const leads = [];
+  const salesAgents = users.filter((user) => user.role === "Sales Agent");
+  const assignableAgents = salesAgents.length ? salesAgents : users;
   for (let index = 0; index < 50; index += 1) {
     const viewed = properties.sort(() => 0.5 - Math.random()).slice(0, Math.floor(Math.random() * 4));
     const stage = pick(stages);
+    const assignedAgent = index % 3 === 0 ? pick(users)._id : pick(assignableAgents)._id;
     const lead = new Lead({
       name: names[index % names.length],
       email: `lead${index + 1}@example.com`,
@@ -148,7 +151,7 @@ async function seedLeads(users: any[], properties: any[]) {
       moveInDate: days(3 + Math.round(Math.random() * 40)),
       occupancyPreference: pick(["Single", "Double", "Triple"] as const),
       genderPreference: pick(["Male", "Female", "Any"] as const),
-      assignedAgent: pick(users)._id,
+      assignedAgent,
       tags: [pick(["High intent", "Budget sensitive", "Urgent move-in", "Parent involved", "IT corridor"] as const)],
       nextFollowUpAt: days(-2 + Math.round(Math.random() * 7)),
       lastContactedAt: days(-Math.round(Math.random() * 6)),
