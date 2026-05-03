@@ -25,11 +25,13 @@ export const router = createBrowserRouter([
     element: <Protected />,
     children: [
       { index: true, element: <DashboardPage /> },
+      { path: "dashboard", element: <DashboardPage /> },
       { path: "leads", element: <LeadsPage /> },
       { path: "leads/:id", element: <LeadDetailPage /> },
       { path: "pipeline", element: <PipelinePage /> },
       { path: "visits", element: <VisitsPage /> },
       { path: "properties", element: <PropertiesPage /> },
+      { path: "inventory", element: <PropertiesPage /> },
       { path: "properties/:id", element: <PropertyDetailPage /> },
       { path: "reservations", element: <ReservationsPage /> },
       { path: "analytics", element: <AnalyticsPage /> }

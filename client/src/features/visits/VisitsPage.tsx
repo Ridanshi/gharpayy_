@@ -182,17 +182,17 @@ export function VisitsPage() {
       </div>
 
       {selectedVisit && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-background/75 p-4 backdrop-blur-sm" onClick={() => setSelectedVisit(null)}>
-          <div className="w-full max-w-lg rounded-lg border bg-card p-5 shadow-2xl" onClick={(event) => event.stopPropagation()}>
-            <div className="flex items-start justify-between gap-3">
+        <div className="fixed inset-0 z-50 grid place-items-center bg-background/75 p-3 backdrop-blur-sm sm:p-4" onClick={() => setSelectedVisit(null)}>
+          <div className="max-h-[calc(100dvh-1.5rem)] w-full max-w-lg overflow-y-auto overscroll-contain rounded-lg border bg-card p-4 shadow-2xl sm:max-h-[calc(100dvh-2rem)] sm:p-5" onClick={(event) => event.stopPropagation()}>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
               <div className="flex gap-3">
                 <Avatar name={selectedVisit.lead.name} />
-                <div>
+                <div className="min-w-0">
                   <h3 className="text-lg font-bold">{selectedVisit.lead.name}</h3>
                   <p className="text-sm text-muted-foreground">{selectedVisit.property.name} • {formatDate(selectedVisit.scheduledAt)}</p>
                 </div>
               </div>
-              <Badge className={statusStyles[selectedVisit.status]}>{selectedVisit.status}</Badge>
+              <Badge className={`${statusStyles[selectedVisit.status]} w-fit`}>{selectedVisit.status}</Badge>
             </div>
             <div className="mt-5 grid gap-3 text-sm sm:grid-cols-2">
               <Info label="Lead phone" value={selectedVisit.lead.phone} />
@@ -202,17 +202,17 @@ export function VisitsPage() {
             </div>
             <div className="mt-5 space-y-2">
               <label className="text-sm font-medium">Reschedule tour</label>
-              <div className="flex gap-2">
+              <div className="flex flex-col gap-2 sm:flex-row">
                 <Input type="datetime-local" value={rescheduleAt} onChange={(event) => setRescheduleAt(event.target.value)} />
-                <Button variant="secondary" disabled={!rescheduleAt || updateVisit.isPending} onClick={() => updateVisit.mutate({ id: selectedVisit._id, scheduledAt: rescheduleAt })}>
+                <Button className="w-full sm:w-auto" variant="secondary" disabled={!rescheduleAt || updateVisit.isPending} onClick={() => updateVisit.mutate({ id: selectedVisit._id, scheduledAt: rescheduleAt })}>
                   <RotateCcw className="h-4 w-4" />Reschedule
                 </Button>
               </div>
             </div>
-            <div className="mt-5 flex flex-wrap justify-end gap-2">
-              <Button variant="secondary" disabled={updateVisit.isPending} onClick={() => updateVisit.mutate({ id: selectedVisit._id, status: "Checked In" })}><UserCheck className="h-4 w-4" />Check-in</Button>
-              <Button variant="secondary" disabled={updateVisit.isPending} onClick={() => updateVisit.mutate({ id: selectedVisit._id, status: "No Show" })}><XCircle className="h-4 w-4" />No-show</Button>
-              <Button disabled={updateVisit.isPending} onClick={() => updateVisit.mutate({ id: selectedVisit._id, status: "Completed" })}><CheckCircle2 className="h-4 w-4" />Complete</Button>
+            <div className="mt-5 grid gap-2 sm:flex sm:flex-wrap sm:justify-end">
+              <Button className="w-full sm:w-auto" variant="secondary" disabled={updateVisit.isPending} onClick={() => updateVisit.mutate({ id: selectedVisit._id, status: "Checked In" })}><UserCheck className="h-4 w-4" />Check-in</Button>
+              <Button className="w-full sm:w-auto" variant="secondary" disabled={updateVisit.isPending} onClick={() => updateVisit.mutate({ id: selectedVisit._id, status: "No Show" })}><XCircle className="h-4 w-4" />No-show</Button>
+              <Button className="w-full sm:w-auto" disabled={updateVisit.isPending} onClick={() => updateVisit.mutate({ id: selectedVisit._id, status: "Completed" })}><CheckCircle2 className="h-4 w-4" />Complete</Button>
             </div>
           </div>
         </div>

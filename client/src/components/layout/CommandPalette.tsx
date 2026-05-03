@@ -35,9 +35,9 @@ export function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenCh
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-background/70 backdrop-blur-sm" />
         <Dialog.Content asChild>
-          <motion.div initial={{ opacity: 0, y: 18, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} className="fixed left-1/2 top-[12vh] z-50 w-[calc(100vw-2rem)] max-w-2xl -translate-x-1/2 overflow-hidden rounded-lg border bg-card shadow-2xl">
-            <div className="flex h-14 items-center gap-3 border-b px-4">
-              <Search className="h-5 w-5 text-muted-foreground" />
+          <motion.div initial={{ opacity: 0, y: 18, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} className="fixed inset-x-3 top-4 z-50 flex max-h-[calc(100dvh-2rem)] flex-col overflow-hidden rounded-lg border bg-card shadow-2xl sm:left-1/2 sm:top-[12vh] sm:w-[calc(100vw-2rem)] sm:max-w-2xl sm:-translate-x-1/2">
+            <div className="flex h-14 shrink-0 items-center gap-3 border-b px-4">
+              <Search className="h-5 w-5 shrink-0 text-muted-foreground" />
               <input
                 autoFocus
                 value={query}
@@ -49,10 +49,10 @@ export function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenCh
                   }
                 }}
                 placeholder="Search anything in FlowOps AI"
-                className="h-full flex-1 bg-transparent text-sm outline-none"
+                className="h-full min-w-0 flex-1 bg-transparent text-sm outline-none"
               />
             </div>
-            <div className="max-h-[62vh] overflow-auto p-2">
+            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-2">
               <Section title="Actions">
                 {filteredActions.map((action) => <CommandItem key={action.label} icon={action.icon} label={action.label} onClick={() => { action.run(); onOpenChange(false); }} />)}
               </Section>
@@ -84,10 +84,10 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 
 function CommandItem({ icon: Icon, label, meta, onClick }: { icon: ElementType; label: string; meta?: string; onClick: () => void }) {
   return (
-    <button onClick={onClick} className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-sm transition hover:bg-muted">
-      <Icon className="h-4 w-4 text-primary" />
-      <span className="font-medium">{label}</span>
-      {meta && <span className="ml-auto truncate text-xs text-muted-foreground">{meta}</span>}
+    <button onClick={onClick} className="flex w-full min-w-0 items-center gap-3 rounded-md px-3 py-2.5 text-left text-sm transition hover:bg-muted">
+      <Icon className="h-4 w-4 shrink-0 text-primary" />
+      <span className="min-w-0 truncate font-medium">{label}</span>
+      {meta && <span className="ml-auto hidden max-w-[42%] truncate text-xs text-muted-foreground sm:block">{meta}</span>}
     </button>
   );
 }

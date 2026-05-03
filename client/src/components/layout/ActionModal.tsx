@@ -205,15 +205,15 @@ export function ActionModal() {
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-background/72 backdrop-blur-sm" />
         <Dialog.Content asChild>
-          <motion.div initial={{ opacity: 0, y: 18, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} className="fixed left-1/2 top-[6vh] z-50 w-[calc(100vw-2rem)] max-w-2xl -translate-x-1/2 overflow-hidden rounded-lg border bg-card shadow-2xl">
-            <div className="flex items-center justify-between border-b p-5">
+          <motion.div initial={{ opacity: 0, y: 18, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} className="fixed inset-x-3 bottom-3 top-3 z-50 flex min-h-0 flex-col overflow-hidden rounded-lg border bg-card shadow-2xl sm:bottom-auto sm:left-1/2 sm:top-[6vh] sm:max-h-[88vh] sm:w-[calc(100vw-2rem)] sm:max-w-2xl sm:-translate-x-1/2">
+            <div className="shrink-0 flex items-center justify-between gap-3 border-b p-4 sm:p-5">
               <div>
                 <Dialog.Title className="text-lg font-bold">{titles[action]}</Dialog.Title>
                 <Dialog.Description className="mt-1 text-sm text-muted-foreground">Complete the workflow and FlowOps will update connected queues and activity.</Dialog.Description>
               </div>
               <Button variant="ghost" size="icon" onClick={closeAction}><X className="h-4 w-4" /></Button>
             </div>
-            <div className="max-h-[72vh] space-y-4 overflow-auto p-5">
+            <div className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain p-4 sm:p-5">
               <Fields action={action} form={form} setForm={setForm} leads={leads} properties={properties} users={users} reservations={reservations} />
               {errors.length > 0 && (
                 <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive">
@@ -222,9 +222,9 @@ export function ActionModal() {
                 </div>
               )}
             </div>
-            <div className="flex justify-end gap-2 border-t p-4">
-              <Button variant="secondary" onClick={closeAction}>Cancel</Button>
-              <Button onClick={() => mutation.mutate()} disabled={mutation.isPending || errors.length > 0}>
+            <div className="shrink-0 flex flex-col-reverse gap-2 border-t bg-card/95 p-4 sm:flex-row sm:justify-end">
+              <Button variant="secondary" className="w-full sm:w-auto" onClick={closeAction}>Cancel</Button>
+              <Button className="w-full sm:w-auto" onClick={() => mutation.mutate()} disabled={mutation.isPending || errors.length > 0}>
                 {action.includes("Export") || action.includes("Report") ? <FileDown className="h-4 w-4" /> : <CheckCircle2 className="h-4 w-4" />}
                 {mutation.isPending ? "Working..." : action.includes("Export") || action.includes("Report") ? "Download" : "Submit"}
               </Button>

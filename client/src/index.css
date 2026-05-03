@@ -65,8 +65,23 @@
     overflow-x: hidden;
   }
 
+  input,
+  select,
+  textarea,
+  button {
+    max-width: 100%;
+  }
+
   ::selection {
     @apply bg-primary text-primary-foreground;
+  }
+}
+
+@layer components {
+  .recharts-responsive-container,
+  .recharts-wrapper,
+  .recharts-surface {
+    max-width: 100%;
   }
 }
 
