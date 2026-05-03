@@ -17,7 +17,7 @@ export function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenCh
   const { data: properties = [] } = useQuery({ queryKey: ["command-properties"], queryFn: () => api<Property[]>("/properties"), enabled: open });
   const { data: reservations = [] } = useQuery({ queryKey: ["command-reservations"], queryFn: () => api<Reservation[]>("/reservations"), enabled: open });
   const actions = [
-    { label: "Open Dashboard", icon: LayoutDashboard, run: () => navigate("/") },
+    { label: "Open Dashboard", icon: LayoutDashboard, run: () => navigate("/dashboard") },
     { label: "Create Lead", icon: CirclePlus, run: () => openAction("Add Lead") },
     { label: "Schedule Tour", icon: CalendarPlus, run: () => openAction("Schedule Tour") },
     { label: "Create Booking", icon: WalletCards, run: () => openAction("Create Reservation") }

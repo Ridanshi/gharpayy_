@@ -31,7 +31,7 @@ export function LoginPage() {
     const result = await api<{ token: string; user: User }>("/auth/login", { method: "POST", body: JSON.stringify(values) });
     setSession(result.user, result.token);
     toast.show({ title: "Welcome back", body: "Your operations workspace is ready." });
-    navigate("/");
+    navigate("/dashboard");
   }
 
   return (

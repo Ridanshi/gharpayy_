@@ -20,11 +20,10 @@ function Protected() {
 
 export const router = createBrowserRouter([
   { path: "/login", element: <LoginPage /> },
+  { path: "/", element: <Navigate to="/login" replace /> },
   {
-    path: "/",
     element: <Protected />,
     children: [
-      { index: true, element: <DashboardPage /> },
       { path: "dashboard", element: <DashboardPage /> },
       { path: "leads", element: <LeadsPage /> },
       { path: "leads/:id", element: <LeadDetailPage /> },

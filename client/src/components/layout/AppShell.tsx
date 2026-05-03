@@ -14,7 +14,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Activity } from "@/types";
 
 const nav = [
-  { to: "/", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/leads", label: "Leads", icon: UsersRound },
   { to: "/pipeline", label: "Pipeline", icon: KanbanSquare },
   { to: "/visits", label: "Tours", icon: CalendarDays },
